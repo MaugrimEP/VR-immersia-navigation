@@ -1,0 +1,12 @@
+{
+    "name": "ToolsEditor",
+    "references": [
+        "Tools"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
