@@ -727,6 +727,42 @@ public class VirtuoseAPIHelper
         }
     }
 
+    public void virtAddForceIdentity()
+    {
+        virtAddForce = (Vector3.zero, Vector3.zero);
+    }
+
+    public (Vector3 forces, Vector3 torques) virtAddForce
+    {
+        set
+        {
+            value.forces = Utils.ClampVector3(value.forces, 30f);
+            value.torques = Utils.ClampVector3(value.torques, 3.1f);
+
+            value.forces = UnityToVirtuoseVector3(value.forces);
+            value.torques = UnityToVirtuoseVector3(value.torques);
+
+            ExecLogOnError(
+                VirtuoseAPI.virtAddForce, new float[] { value.forces.x, value.forces.y, value.forces.z, value.torques.x, value.torques.y, value.torques.z });
+        }
+    }
+
+    /// <summary>
+    /// Cast a Vector3 form unity axis system, to Virtuose axis system
+    /// work for Force, Torque,
+    /// Position ? Rotation ?
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public Vector3 UnityToVirtuoseVector3(Vector3 value)
+    {
+        float[] poseMax = new float[6] { 0, 0, 0, 0, 0, 0 };
+        ExecLogOnError(VirtuoseAPI.virtGetArticularPosition, poseMax);
+        Vector3 vect = new Vector3(-value[2] * Mathf.Cos(poseMax[0]) + value[0] * Mathf.Sin(poseMax[0]), value[0] * Mathf.Cos(poseMax[0]) + value[2] * Mathf.Sin(poseMax[0]), value[1]);
+
+        return vect;
+    }
+
     /// <summary>
     /// Convert vecteur from Unity base to Virtuose base using to set force.
     /// </summary>
@@ -820,10 +856,20 @@ public class VirtuoseAPIHelper
         }
         set
         {
-            pose = ConvertUnityToVirtuose(value.position, value.rotation);
+            pose = ConvertUnityToVirtuose(value.position, value.rotation.normalized);
             ExecLogOnError(
                 VirtuoseAPI.virtSetPosition, pose);
         }
+    }
+
+    public void SetPoseIdentity()
+    {
+        Pose = Pose;
+    }
+
+    public void SetSpeedIdentity()
+    {
+        Speed = Speed;
     }
 
     /// <summary>
