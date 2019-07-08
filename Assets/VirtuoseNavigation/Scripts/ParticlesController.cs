@@ -20,7 +20,7 @@ public class ParticlesController : MonoBehaviour
 
     private void Update()
     {
-        VRControleParticles.Do(humanController.GetAbsSpeed());
+        VRControleParticles.Do(humanController.GetSpeed());
     }
 
     [VRCommand]

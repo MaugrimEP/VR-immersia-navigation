@@ -106,12 +106,6 @@ public static class Utils
         return res;
     }
 
-    public static Quaternion Treshold(this Quaternion q, float treshold, Quaternion defaultRotation)
-    {
-        float angle = Quaternion.Angle(Quaternion.identity, q);
-        return Mathf.Abs(angle) < treshold ? defaultRotation : q;
-    }
-
     public static Quaternion ScalarMul(this Quaternion q, float scalar)
     {
         return new Quaternion(q.x * scalar, q.y * scalar, q.z * scalar, q.w * scalar);
@@ -135,6 +129,23 @@ public static class Utils
             Mathf.Clamp(v3.x, -1f, 1f),
             Mathf.Clamp(v3.y, -1f, 1f),
             Mathf.Clamp(v3.z, -1f, 1f));
+    }
+
+    public static float OrientedAngle(this float angle)
+    {
+        if (angle > 180) return angle - 360;
+        else return angle;
+    }
+
+    public static float TresholdLower(this float value, float treshold, float defaultValue)
+    {
+        if (Mathf.Abs(value) < treshold) return defaultValue;
+        else return value;
+    }
+
+    public static float Signe(this float value)
+    {
+        return value < 0? -1 : 1;
     }
 }
 

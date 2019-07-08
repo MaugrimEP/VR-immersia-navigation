@@ -16,7 +16,7 @@ public class TransformAnimReinit : MonoBehaviour
 
     void Update()
     {
-        SetState(humanController.GetAbsSpeed());
+        SetState(humanController.GetSpeed());
         float rotationY = GetCurrentRotation();
         transform.localRotation = Quaternion.Euler(Vector3.up* rotationY);
     }

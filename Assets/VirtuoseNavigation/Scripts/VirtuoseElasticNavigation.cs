@@ -11,12 +11,14 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     private Quaternion attachedRotation;
 
     public float TranslationTreshold = 0.01f;
-    public float RotationTreshold = 0.05f;
+    public Vector3 RotationTreshold;
+    public float JumpValue;
+    public float MaximalRotation = 45f;
 
     [Header("SphereParameters")]
-    public float SphereWalkRadius;
-    public float SphereRunAddRadius;
+    public float SphereRadius;
     public float ForceFactor;
+    public float TorqueFactor;
 
     private void Start()
     {
@@ -27,25 +29,32 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     {
         if (!vm.Arm.IsConnected) return;
 
-        if (!attached)
+        if (!attached || vm.IsButtonToggled())
         {
             (attachedPosition, attachedRotation) = vm.Virtuose.Pose;
             attached = true;
         }
 
         Vector3 differencePos = vm.Virtuose.Pose.position - attachedPosition;
-
         Vector3 forces = -differencePos * ForceFactor;
-        vm.Virtuose.virtAddForce = (forces, torques: Vector3.zero);
+        Vector3 torques = (OrientedRotation()/180f) * TorqueFactor;
 
-        if (differencePos.magnitude > SphereWalkRadius + SphereRunAddRadius)
+        vm.Virtuose.virtAddForce = (forces, torques);
+
+        if (differencePos.magnitude > SphereRadius)
         {
-            Vector3 PositionOnSphere = differencePos.GetPointInSphere(SphereWalkRadius + SphereRunAddRadius);
-            vm.Virtuose.Pose = (attachedPosition + PositionOnSphere, vm.Virtuose.Pose.rotation);
+            Vector3 PositionOnSphere = differencePos.GetPointInSphere(SphereRadius);
+            vm.Virtuose.Pose = (
+                attachedPosition + new Vector3(PositionOnSphere.x, 0f, PositionOnSphere.z),
+                vm.Virtuose.Pose.rotation);
         }
         else
         {
-            vm.Virtuose.SetPoseIdentity();
+            (Vector3 virtPos, Quaternion virtRot) = vm.Virtuose.Pose;
+            vm.Virtuose.Pose = (
+                new Vector3(virtPos.x, attachedPosition.y, virtPos.z),
+                virtRot
+                );
         }
     }
 
@@ -55,20 +64,67 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     /// <returns></returns>
     public Vector3 GetTranslation()
     {
-        if (!vm.Arm.IsConnected || !vm.IsButtonPressed()) return Vector3.zero;
+        if (!vm.Arm.IsConnected) return Vector3.zero;
 
         Vector3 differencePos = vm.Virtuose.Pose.position - attachedPosition;
-        Vector3 translation = (differencePos / (SphereWalkRadius + SphereRunAddRadius)).Clamp(-1f, 1f);
+        Vector3 translation = (differencePos / (SphereRadius)).Clamp(-1f, 1f);
         translation = translation.Treshold(TranslationTreshold, 0f);
         return translation;
     }
 
+    /// <summary>
+    /// Rotation without treshold
+    /// </summary>
+    /// <returns></returns>
     public Quaternion GetRotation()
     {
-        if (!vm.Arm.IsConnected || !vm.IsButtonPressed()) return Quaternion.identity;
+        if (!vm.Arm.IsConnected) return Quaternion.identity;
 
         Quaternion differenceRot = vm.Virtuose.Pose.rotation * Quaternion.Inverse(attachedRotation);
-        differenceRot = differenceRot.Treshold(RotationTreshold, Quaternion.identity);
         return differenceRot;
+    }
+
+    public bool Jump()
+    {
+        return GetTranslation().y> JumpValue;
+    }
+
+    private float ToMouseInput(float angle)
+    {
+        float normalizedRotation = Mathf.Clamp(angle.OrientedAngle() / MaximalRotation, -1, 1);
+        return normalizedRotation;
+    }
+
+    public float GetMouseX()
+    {
+        float rotation = GetRotation().eulerAngles.y.TresholdLower(RotationTreshold.y, 0f);
+
+        return ToMouseInput(rotation);
+    }
+
+    public float GetMouseY()
+    {
+        float rotation = GetRotation().eulerAngles.x.TresholdLower(RotationTreshold.x, 0f);
+        return ToMouseInput(rotation);
+    }
+
+    /// <summary>
+    /// return the angular deviation in [-180;180], with a treshold
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 OrientedRotation()
+    {
+        Vector3 rotation = GetRotation().eulerAngles;
+
+        rotation.x = rotation.x.OrientedAngle().TresholdLower(RotationTreshold.x, 0f); ;
+        rotation.y = rotation.y.OrientedAngle().TresholdLower(RotationTreshold.y, 0f); ;
+        rotation.z = rotation.z.OrientedAngle().TresholdLower(RotationTreshold.z, 0f); ;
+
+        return rotation;
+    }
+
+    public bool IsButtonPressed()
+    {
+        return vm.IsButtonPressed();
     }
 }

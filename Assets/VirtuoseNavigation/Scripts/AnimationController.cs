@@ -7,6 +7,7 @@ public class AnimationController : MonoBehaviour
 {
     public Animator animator;
     public HumanController humanController;
+    public float SpeedMultiplier;
 
     private vrCommand VRSetAnimationSpeed;
     private static int id;
@@ -28,8 +29,8 @@ public class AnimationController : MonoBehaviour
         float realSpeed = VRspeed.GetFloat();
         float speed = Mathf.Abs(realSpeed);
 
-        animator.SetFloat("Speed", speed);
-        animator.SetFloat("RealSpeed", realSpeed);
+        animator.SetFloat("Speed", speed * SpeedMultiplier);
+        animator.SetFloat("RealSpeed", realSpeed * SpeedMultiplier);
         return null;
     }
 }

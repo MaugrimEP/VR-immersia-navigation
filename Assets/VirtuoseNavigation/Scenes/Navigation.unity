@@ -460,7 +460,6 @@ GameObject:
   - component: {fileID: 55773720}
   - component: {fileID: 55773721}
   - component: {fileID: 55773717}
-  - component: {fileID: 55773722}
   - component: {fileID: 55773716}
   - component: {fileID: 55773718}
   m_Layer: 9
@@ -482,10 +481,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27531d4fabdd8184686a98532782d1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 55773721}
+  cameraViewPoint: {fileID: 1536620546}
+  characterController: {fileID: 55773721}
   InputController: {fileID: 1577820583}
-  TranslationSpeed: 15
-  RotationSpeed: 10
+  speed: 5
+  acceleration: 11
+  turnSpeed: 5
+  turnSpeedMin: 7
+  turnSpeedMax: 20
+  jumpVelocity: 10
+  gravity: 10
+  MovingDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &55773717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 171421494}
   humanController: {fileID: 55773716}
+  SpeedMultiplier: 1
 --- !u!4 &55773720
 Transform:
   m_ObjectHideFlags: 0
@@ -574,75 +581,6 @@ CharacterController:
   m_SkinWidth: 0.005
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
---- !u!114 &55773722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55773715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20737095bd4c61444a95ba366ea635b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canControl: 1
-  useFixedUpdate: 1
-  movement:
-    maxForwardSpeed: 10
-    maxSidewaysSpeed: 10
-    maxBackwardsSpeed: 10
-    slopeSpeedMultiplier:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -90
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 90
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    maxGroundAcceleration: 30
-    maxAirAcceleration: 20
-    gravity: 10
-    maxFallSpeed: 20
-  jumping:
-    enabled: 1
-    baseHeight: 1
-    extraHeight: 2
-    perpAmount: 0
-    steepPerpAmount: 0.5
-  movingPlatform:
-    enabled: 1
-    movementTransfer: 2
-  sliding:
-    enabled: 1
-    slidingSpeed: 15
-    sidewaysControl: 1
-    speedControl: 0.4
 --- !u!1 &70182527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,8 +1445,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9d277ee8589fbe41b7b8ccaee9eba78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 55773716}
-  OffsetFromCharacter: {x: 0, y: 0.3, z: -4}
+  CharacterTransform: {fileID: 55773720}
+  InputController: {fileID: 1577820583}
+  heading: 0
+  tilt: 1
+  cameraDistance: 6
+  playerHeight: 0
 --- !u!4 &408280172
 Transform:
   m_ObjectHideFlags: 0
@@ -4073,6 +4015,56 @@ Transform:
   m_Father: {fileID: 16718131}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &445191942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 445191943}
+  - component: {fileID: 445191944}
+  m_Layer: 0
+  m_Name: InputViewer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &445191943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445191942}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.707, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &445191944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445191942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bcbb4116b368d48888b60e91373fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputController: {fileID: 1577820583}
+  HeadNode: {fileID: 0}
+  SphereMaterial: {fileID: 2100000, guid: b712925060f698545b6086a9443da7da, type: 2}
+  SphereRadius: 1
+  arrowWidth: 0.05
+  arrowLength: 0.5
+  offsetFromRootNode: {x: 0, y: 0, z: 1}
 --- !u!1 &454046102
 GameObject:
   m_ObjectHideFlags: 0
@@ -7245,13 +7237,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vm: {fileID: 243262213}
-  TranslationMultiplier: 150
-  TranslationTreshold: 0.02
-  RotationMultiplier: 75
-  RotationTreshold: 0.03
-  SphereWalkRadius: 0.1
-  SphereRunAddRadius: 0.1
-  ForceFactor: 80
+  TranslationTreshold: 0.1
+  RotationTreshold: {x: 4, y: 4, z: 4}
+  JumpValue: 0.5
+  MaximalRotation: 45
+  SphereRadius: 0.1
+  ForceFactor: 40
+  TorqueFactor: 5
 --- !u!4 &1577820584
 Transform:
   m_ObjectHideFlags: 0
@@ -7835,10 +7827,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: 12b3c3cc808a1b647aa770aefa81acc7, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c674c45ce33dcee489f283c351ec3929, type: 2}
     - target: {fileID: 400080, guid: 12b3c3cc808a1b647aa770aefa81acc7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.049
@@ -7891,6 +7879,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 12b3c3cc808a1b647aa770aefa81acc7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c674c45ce33dcee489f283c351ec3929, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12b3c3cc808a1b647aa770aefa81acc7, type: 3}
 --- !u!1 &1811040464

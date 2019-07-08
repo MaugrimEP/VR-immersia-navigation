@@ -10,40 +10,109 @@ using MiddleVR_Unity3D;
 
 public class HumanController : MonoBehaviour
 {
-    public CharacterController character;
+    [Header("OBJECTS")]
+    public Transform cameraViewPoint;
+    public CharacterController characterController;
+
+    //Input
     public VirtuoseElasticNavigation InputController;
+    private Vector2 input;
 
-    public float TranslationSpeed;
-    public float RotationSpeed;
+    [Header("PHYSICS")]
+    public float speed = 5f;
+    public float acceleration = 11f;
+    public float turnSpeed = 5f;
+    public float turnSpeedMin = 7f;
+    public float turnSpeedMax = 20f;
+    public float jumpVelocity = 10f;
+    public float gravity = 10f;
+    private Vector3 velocityXZ;
+    private Vector3 velocity;
+    private bool grounded = false;
 
-    private float speed;
-    private float absSpeed;
+    //Computed or so values
+    [HideInInspector]
+    public Vector3 MovingDirection;
+    private Vector3 previousPosition;
+
+    private void Start()
+    {
+        grounded = false;
+        previousPosition = characterController.transform.position;
+    }
 
     void Update()
     {
+        DoInput();
+        CalculateGround();
+        DoMove();
+        DoGravity();
+        DoJump();
+        CalculateComputedValues();
 
-        float YRotation = InputController.GetRotation().eulerAngles.y;
-        YRotation = YRotation < 180 ? YRotation : YRotation - 360;
-        YRotation = YRotation * RotationSpeed * VRTools.GetDeltaTime();
-        character.transform.Rotate(Vector3.up * YRotation, Space.Self);
+        float YRotation = InputController.OrientedRotation().y;
+        YRotation = YRotation * turnSpeed * VRTools.GetDeltaTime();
+        if (InputController.vm.IsButtonPressed())
+        {
+            velocity.x = 0;
+            velocity.z = 0;
+            YRotation = 0f;
+        }
+        characterController.Move(velocity * VRTools.GetDeltaTime());
+        characterController.transform.Rotate(Vector3.up * YRotation, Space.Self);
+    }
 
-        Vector3 translation = InputController.GetTranslation() * TranslationSpeed * VRTools.GetDeltaTime();
-        translation = character.transform.localRotation * Vector3.forward * translation.z;
+    private void DoInput()
+    {
+        if (InputController.vm.IsButtonPressed()) input = Vector2.zero;
+        else (input.x, input.y) = (0f, InputController.GetTranslation().z);
 
-        speed = InputController.GetTranslation().z ;
-        absSpeed = Mathf.Abs(speed);
+        input = Vector2.ClampMagnitude(input, 1);
 
-        character.Move(translation);
+        if (InputController.vm.IsButtonPressed()) input = Vector2.zero;
+    }
+
+    private void CalculateGround()
+    {
+        grounded = characterController.isGrounded;
+    }
+
+    private void DoMove()
+    {
+        float tS = velocity.magnitude / speed;
+        turnSpeed = Mathf.Lerp(turnSpeedMax, turnSpeedMin, tS);
+
+        velocityXZ = velocity;
+        velocityXZ.y = 0f;
+
+        velocityXZ = Vector3.Lerp(velocityXZ, characterController.transform.forward * input.y.Signe() * input.magnitude * speed, acceleration * VRTools.GetDeltaTime());
+        velocity = new Vector3(velocityXZ.x, velocity.y, velocityXZ.z);
+    }
+
+    private void DoGravity()
+    {
+        if (grounded)
+            velocity.y = -0.5f;
+        else
+            velocity.y -= gravity * VRTools.GetDeltaTime();
+        velocity.y = Mathf.Clamp(velocity.y, -10f, 10f);
+    }
+
+    private void DoJump()
+    {
+        if (grounded && InputController.Jump() && !InputController.vm.IsButtonPressed())
+            velocity.y = jumpVelocity;
+    }
+
+    private void CalculateComputedValues()
+    {
+        MovingDirection = previousPosition - characterController.transform.position;
+        previousPosition = characterController.transform.position;
     }
 
     public float GetSpeed()
     {
-        return speed;
-    }
-
-    public float GetAbsSpeed()
-    {
-        return absSpeed;
+        return input.y;
     }
 }
 
