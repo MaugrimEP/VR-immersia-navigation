@@ -493,6 +493,9 @@ MonoBehaviour:
   jumpVelocity: 10
   gravity: 10
   MovingDirection: {x: 0, y: 0, z: 0}
+  airVelocity: 3
+  TimeToFall: 2
+  Falling: 0
 --- !u!114 &55773717
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -35,6 +35,12 @@ public class HumanController : MonoBehaviour
     public Vector3 MovingDirection;
     private Vector3 previousPosition;
 
+    [Header("Falling")]
+    public float airVelocity;
+    public float TimeToFall;
+    public bool Falling;
+    private float timeBeforeFall;
+
     private void Start()
     {
         grounded = false;
@@ -43,12 +49,49 @@ public class HumanController : MonoBehaviour
 
     void Update()
     {
-        DoInput();
-        CalculateGround();
-        DoMove();
-        DoGravity();
-        DoJump();
-        CalculateComputedValues();
+        if (characterController.isGrounded)
+        {
+            timeBeforeFall = TimeToFall;
+            Falling = false;
+        }
+        else
+        {
+            Falling = timeBeforeFall <= 0;
+            if (!Falling) timeBeforeFall -= VRTools.GetDeltaTime();
+        }
+
+        if (!Falling)
+        {
+            DoInput();
+            CalculateGround();
+            DoMove();
+            DoGravity();
+            DoJump();
+            CalculateComputedValues();
+
+            float YRotation = InputController.OrientedRotation().y;
+            YRotation = YRotation * turnSpeed * VRTools.GetDeltaTime();
+            if (InputController.vm.IsButtonPressed())
+            {
+                velocity.x = 0;
+                velocity.z = 0;
+                YRotation = 0f;
+            }
+            characterController.Move(velocity * VRTools.GetDeltaTime());
+            characterController.transform.Rotate(Vector3.up * YRotation, Space.Self);
+        }
+        else
+        {
+            FallingControle();
+        }
+    }
+
+    private void FallingControle()
+    {
+        if (InputController.vm.IsButtonPressed()) return;
+        Vector3 Translation = InputController.GetTranslation();
+        input.y = Translation.z;
+        characterController.Move(Translation * airVelocity * VRTools.GetDeltaTime());
 
         float YRotation = InputController.OrientedRotation().y;
         YRotation = YRotation * turnSpeed * VRTools.GetDeltaTime();
@@ -58,7 +101,6 @@ public class HumanController : MonoBehaviour
             velocity.z = 0;
             YRotation = 0f;
         }
-        characterController.Move(velocity * VRTools.GetDeltaTime());
         characterController.transform.Rotate(Vector3.up * YRotation, Space.Self);
     }
 
