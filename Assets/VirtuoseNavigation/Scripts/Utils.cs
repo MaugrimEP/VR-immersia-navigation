@@ -147,6 +147,11 @@ public static class Utils
     {
         return value < 0? -1 : 1;
     }
+
+    public static float Nfmod(float a, float b)
+    {
+        return a.Signe() * (a -  b * Mathf.Floor(a / b));
+    }
 }
 
 

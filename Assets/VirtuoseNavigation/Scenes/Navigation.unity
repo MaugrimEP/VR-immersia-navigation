@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 55773717}
   - component: {fileID: 55773716}
   - component: {fileID: 55773718}
+  - component: {fileID: 55773719}
   m_Layer: 9
   m_Name: Character
   m_TagString: Untagged
@@ -534,6 +535,19 @@ MonoBehaviour:
   animator: {fileID: 171421494}
   humanController: {fileID: 55773716}
   SpeedMultiplier: 1
+--- !u!114 &55773719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55773715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa136d477fae4c44e8908ea6e2d5d1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IncludeChildren: 1
 --- !u!4 &55773720
 Transform:
   m_ObjectHideFlags: 0
@@ -1448,9 +1462,11 @@ MonoBehaviour:
   CharacterTransform: {fileID: 55773720}
   InputController: {fileID: 1577820583}
   heading: 0
+  headingSpeed: 10
   tilt: 1
+  tiltSpeed: 10
   cameraDistance: 6
-  playerHeight: 0
+  playerHeight: 1
 --- !u!4 &408280172
 Transform:
   m_ObjectHideFlags: 0
