@@ -37,18 +37,18 @@ public class HumanController : MonoBehaviour
     [Header("Falling")]
     public float airVelocity;
 
-    public enum State { Walking, Flying}
+    public enum State { Default, Walking, Flying}
     [HideInInspector]
     public State state;
 
     private void Start()
     {
         previousPosition = characterController.transform.position;
+        state = State.Walking;
     }
 
     void Update()
     {
-
         if (InputController.vm.IsButtonPressed())
         {
             FallingControle();

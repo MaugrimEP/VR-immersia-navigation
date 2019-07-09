@@ -23,20 +23,20 @@ public class ParticlesController : MonoBehaviour
         VRControleParticlesDirt = new vrCommand($"ParticlesController_{name}_{id}", UpdateParticlesDirt);
         VRControleParticlesTornado = new vrCommand($"ParticlesController_{name}_{id}", UpdateParticlesTornado);
 
-        previousState = HumanController.State.Walking;
+        previousState = HumanController.State.Default;
     }
 
     private void Update()
     {
-        if (previousState != humanController.state)
-            if (humanController.state == HumanController.State.Walking)
-            {
-                VRControleParticlesDirt.Do(humanController.GetSpeed());
-            }
-            else
-            {
-                VRControleParticlesTornado.Do();
-            }
+        if (humanController.state == HumanController.State.Flying && previousState != HumanController.State.Flying)
+        {
+            VRControleParticlesTornado.Do();
+        }
+        if (humanController.state == HumanController.State.Walking)
+        {
+            VRControleParticlesDirt.Do(humanController.GetSpeed());
+            Debug.Log($"HumanState = {humanController.state}");
+        }
         previousState = humanController.state;
     }
 
@@ -48,10 +48,8 @@ public class ParticlesController : MonoBehaviour
 
         tornadoController.StopParticles();
 
-        if (particleTresholdSpeed < speed)
-            DustPS.Play();
-        else
-            DustPS.Pause();
+
+        DustPS.enableEmission = particleTresholdSpeed < speed;
 
         return null;
     }
@@ -60,7 +58,7 @@ public class ParticlesController : MonoBehaviour
     private vrValue UpdateParticlesTornado(vrValue _)
     {
         tornadoController.PlayParticles();
-        DustPS.Pause();
+        DustPS.enableEmission = false;
         return null;
     }
 }
