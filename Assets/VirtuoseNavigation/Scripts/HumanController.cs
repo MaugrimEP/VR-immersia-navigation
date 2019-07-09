@@ -28,7 +28,6 @@ public class HumanController : MonoBehaviour
     public float gravity = 10f;
     private Vector3 velocityXZ;
     private Vector3 velocity;
-    private bool grounded = false;
 
     //Computed or so values
     [HideInInspector]
@@ -37,33 +36,28 @@ public class HumanController : MonoBehaviour
 
     [Header("Falling")]
     public float airVelocity;
-    public float TimeToFall;
-    public bool Falling;
-    private float timeBeforeFall;
+
+    public enum State { Walking, Flying}
+    [HideInInspector]
+    public State state;
 
     private void Start()
     {
-        grounded = false;
         previousPosition = characterController.transform.position;
     }
 
     void Update()
     {
-        if (characterController.isGrounded)
+
+        if (InputController.vm.IsButtonPressed())
         {
-            timeBeforeFall = TimeToFall;
-            Falling = false;
+            FallingControle();
+            state = State.Flying;
         }
         else
         {
-            Falling = timeBeforeFall <= 0;
-            if (!Falling) timeBeforeFall -= VRTools.GetDeltaTime();
-        }
-
-        if (!Falling)
-        {
+            state = State.Walking;
             DoInput();
-            CalculateGround();
             DoMove();
             DoGravity();
             DoJump();
@@ -71,7 +65,7 @@ public class HumanController : MonoBehaviour
 
             float YRotation = InputController.OrientedRotation().y;
             YRotation = YRotation * turnSpeed * VRTools.GetDeltaTime();
-            if (InputController.vm.IsButtonPressed())
+            if (InputController.IsResetingAttached())
             {
                 velocity.x = 0;
                 velocity.z = 0;
@@ -80,43 +74,28 @@ public class HumanController : MonoBehaviour
             characterController.Move(velocity * VRTools.GetDeltaTime());
             characterController.transform.Rotate(Vector3.up * YRotation, Space.Self);
         }
-        else
-        {
-            FallingControle();
-        }
     }
 
     private void FallingControle()
     {
-        if (InputController.vm.IsButtonPressed()) return;
+        if (InputController.IsResetingAttached()) return;
         Vector3 Translation = InputController.GetTranslation();
         input.y = Translation.z;
-        characterController.Move(Translation * airVelocity * VRTools.GetDeltaTime());
+        characterController.Move(characterController.transform.rotation * Translation *airVelocity * VRTools.GetDeltaTime());
 
         float YRotation = InputController.OrientedRotation().y;
         YRotation = YRotation * turnSpeed * VRTools.GetDeltaTime();
-        if (InputController.vm.IsButtonPressed())
-        {
-            velocity.x = 0;
-            velocity.z = 0;
-            YRotation = 0f;
-        }
         characterController.transform.Rotate(Vector3.up * YRotation, Space.Self);
     }
 
     private void DoInput()
     {
-        if (InputController.vm.IsButtonPressed()) input = Vector2.zero;
+        if (InputController.IsResetingAttached()) input = Vector2.zero;
         else (input.x, input.y) = (0f, InputController.GetTranslation().z);
 
         input = Vector2.ClampMagnitude(input, 1);
 
-        if (InputController.vm.IsButtonPressed()) input = Vector2.zero;
-    }
-
-    private void CalculateGround()
-    {
-        grounded = characterController.isGrounded;
+        if (InputController.IsResetingAttached()) input = Vector2.zero;
     }
 
     private void DoMove()
@@ -133,7 +112,7 @@ public class HumanController : MonoBehaviour
 
     private void DoGravity()
     {
-        if (grounded)
+        if (characterController.isGrounded)
             velocity.y = -0.5f;
         else
             velocity.y -= gravity * VRTools.GetDeltaTime();
@@ -142,7 +121,7 @@ public class HumanController : MonoBehaviour
 
     private void DoJump()
     {
-        if (grounded && InputController.Jump() && !InputController.vm.IsButtonPressed())
+        if (characterController.isGrounded && InputController.Jump() && !InputController.IsResetingAttached())
             velocity.y = jumpVelocity;
     }
 

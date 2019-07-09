@@ -5,35 +5,62 @@ using UnityEngine;
 
 public class ParticlesController : MonoBehaviour
 {
-    public ParticleSystem ps;
+    public ParticleSystem DustPS;
+    public TornadoController tornadoController;
+
     public HumanController humanController;
-    private vrCommand VRControleParticles;
     public float particleTresholdSpeed = 0.2f;
 
     private static int id;
+    private vrCommand VRControleParticlesDirt;
+    private vrCommand VRControleParticlesTornado;
+
+    private HumanController.State previousState;
 
     private void Start()
     {
         id++;
-        VRControleParticles = new vrCommand($"ParticlesController_{name}_{id}", UpdateParticles);
+        VRControleParticlesDirt = new vrCommand($"ParticlesController_{name}_{id}", UpdateParticlesDirt);
+        VRControleParticlesTornado = new vrCommand($"ParticlesController_{name}_{id}", UpdateParticlesTornado);
+
+        previousState = HumanController.State.Walking;
     }
 
     private void Update()
     {
-        VRControleParticles.Do(humanController.GetSpeed());
+        if (previousState != humanController.state)
+            if (humanController.state == HumanController.State.Walking)
+            {
+                VRControleParticlesDirt.Do(humanController.GetSpeed());
+            }
+            else
+            {
+                VRControleParticlesTornado.Do();
+            }
+        previousState = humanController.state;
     }
 
     [VRCommand]
-    private vrValue UpdateParticles(vrValue VRSpeed)
+    private vrValue UpdateParticlesDirt(vrValue VRSpeed)
     {
         float realSpeed = VRSpeed.GetFloat();
         float speed = Mathf.Abs(realSpeed);
 
-        if (particleTresholdSpeed < speed)
-            ps.Play();
-        else
-            ps.Pause();
+        tornadoController.StopParticles();
 
+        if (particleTresholdSpeed < speed)
+            DustPS.Play();
+        else
+            DustPS.Pause();
+
+        return null;
+    }
+
+    [VRCommand]
+    private vrValue UpdateParticlesTornado(vrValue _)
+    {
+        tornadoController.PlayParticles();
+        DustPS.Pause();
         return null;
     }
 }

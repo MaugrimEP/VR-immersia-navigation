@@ -9,6 +9,10 @@ public class NodeHierarchyControllerTPS : MonoBehaviour
     public Transform CharacterTransform;
     public VirtuoseElasticNavigation InputController;
 
+    public float TimeBeforeInactif = 10f;
+    private bool Actif = true;
+    private float InactifCounter = 0f;
+
     [Header("CAMERA PARAMETERS")]
     public float heading = 0;
     public float headingSpeed = 15;
@@ -34,10 +38,10 @@ public class NodeHierarchyControllerTPS : MonoBehaviour
     [VRCommand]
     private vrValue MyUpdate(vrValue _)
     {
-        if (InputController.IsButtonPressed())
-            FreeCam();
-        else
+        if (Actif)
             BehindCam();
+        else
+            FreeCam();
         return null;
     }
 

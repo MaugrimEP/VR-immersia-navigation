@@ -10,7 +10,7 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     private Vector3 attachedPosition;
     private Quaternion attachedRotation;
 
-    public float TranslationTreshold = 0.01f;
+    public float TranslationTreshold = 0.05f;
     public Vector3 RotationTreshold;
     public float JumpValue;
     public float MaximalRotation = 45f;
@@ -29,7 +29,7 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     {
         if (!vm.Arm.IsConnected) return;
 
-        if (!attached || vm.IsButtonToggled())
+        if (!attached)//|| vm.IsButtonToggled())
         {
             (attachedPosition, attachedRotation) = vm.Virtuose.Pose;
             attached = true;
@@ -40,6 +40,7 @@ public class VirtuoseElasticNavigation : MonoBehaviour
         Vector3 torques = (OrientedRotation()/180f) * TorqueFactor;
 
         vm.Virtuose.virtAddForce = (forces, torques);
+        vm.Virtuose.SetSpeedIdentity();
 
         if (differencePos.magnitude > SphereRadius)
         {
@@ -123,8 +124,8 @@ public class VirtuoseElasticNavigation : MonoBehaviour
         return rotation;
     }
 
-    public bool IsButtonPressed()
+    public bool IsResetingAttached()
     {
-        return vm.IsButtonPressed();
+        return false;
     }
 }
