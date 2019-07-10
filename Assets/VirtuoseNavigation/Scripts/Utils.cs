@@ -145,12 +145,17 @@ public static class Utils
 
     public static float Signe(this float value)
     {
-        return value < 0? -1 : 1;
+        return value < 0 ? -1 : 1;
     }
 
     public static float Nfmod(float a, float b)
     {
-        return a.Signe() * (a -  b * Mathf.Floor(a / b));
+        return a.Signe() * (a - b * Mathf.Floor(a / b));
+    }
+
+    public static Vector3 MultComp(this Vector3 v, Vector3 scalars)
+    {
+        return new Vector3(v.x * scalars.x, v.y * scalars.y, v.z * scalars.z);
     }
 }
 

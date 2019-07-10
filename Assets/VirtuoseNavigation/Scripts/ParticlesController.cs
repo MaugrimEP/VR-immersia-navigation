@@ -35,7 +35,6 @@ public class ParticlesController : MonoBehaviour
         if (humanController.state == HumanController.State.Walking)
         {
             VRControleParticlesDirt.Do(humanController.GetSpeed());
-            Debug.Log($"HumanState = {humanController.state}");
         }
         previousState = humanController.state;
     }

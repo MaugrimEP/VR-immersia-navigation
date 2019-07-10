@@ -10,19 +10,19 @@ public class TransformAnimReinit : MonoBehaviour
     public float WalkRunTreshold;
     public HumanController humanController;
 
-    public float idleRotation;
-    public float walkRotation;
-    public float runRotation;
-    public float flyRotation;
+    public Vector3 idleRotation;
+    public Vector3 walkRotation;
+    public Vector3 runRotation;
+    public Vector3 flyRotation;
 
     void Update()
     {
         SetState(humanController.GetSpeed());
-        float rotationY = GetCurrentRotation();
-        transform.localRotation = Quaternion.Euler(Vector3.up* rotationY);
+        Vector3 rotation = GetCurrentRotation();
+        transform.localRotation = Quaternion.Euler(rotation);
     }
 
-    private float GetCurrentRotation()
+    private Vector3 GetCurrentRotation()
     {
         switch (currentState)
         {
@@ -35,7 +35,7 @@ public class TransformAnimReinit : MonoBehaviour
             case AnimationState.Fly:
                 return flyRotation;
             default:
-                return 0f;
+                return Vector3.zero;
         }
     }
 

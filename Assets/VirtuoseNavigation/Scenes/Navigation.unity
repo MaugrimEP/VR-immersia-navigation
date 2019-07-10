@@ -494,6 +494,7 @@ MonoBehaviour:
   gravity: 10
   MovingDirection: {x: 0, y: 0, z: 0}
   airVelocity: 20
+  flyingRotationSpeed: {x: 3, y: 3, z: 3}
   state: 0
 --- !u!114 &55773717
 MonoBehaviour:
@@ -837,9 +838,10 @@ MonoBehaviour:
   currentState: 0
   WalkRunTreshold: 0.4
   humanController: {fileID: 55773716}
-  idleRotation: 0
-  walkRotation: 0
-  runRotation: -20
+  idleRotation: {x: 0, y: 0, z: 0}
+  walkRotation: {x: 0, y: 0, z: 0}
+  runRotation: {x: 0, y: -20, z: 0}
+  flyRotation: {x: 0, y: 0, z: 13}
 --- !u!95 &171421494 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 12b3c3cc808a1b647aa770aefa81acc7,

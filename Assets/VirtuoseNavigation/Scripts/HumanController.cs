@@ -34,10 +34,11 @@ public class HumanController : MonoBehaviour
     public Vector3 MovingDirection;
     private Vector3 previousPosition;
 
-    [Header("Falling")]
+    [Header("Flying")]
     public float airVelocity;
+    public Vector3 flyingRotationSpeed;
 
-    public enum State { Default, Walking, Flying}
+    public enum State { Default, Walking, Flying }
     [HideInInspector]
     public State state;
 
@@ -57,6 +58,7 @@ public class HumanController : MonoBehaviour
         else
         {
             state = State.Walking;
+            ResetCharacterRotation();
             DoInput();
             DoMove();
             DoGravity();
@@ -76,16 +78,19 @@ public class HumanController : MonoBehaviour
         }
     }
 
+    private void ResetCharacterRotation()
+    {
+        characterController.transform.rotation = Quaternion.Euler(Vector3.up * characterController.transform.rotation.eulerAngles.y);
+    }
+
     private void FallingControle()
     {
         if (InputController.IsResetingAttached()) return;
         Vector3 Translation = InputController.GetTranslation();
+        Vector3 Rotation = InputController.OrientedRotation();
         input.y = Translation.z;
-        characterController.Move(characterController.transform.rotation * Translation *airVelocity * VRTools.GetDeltaTime());
-
-        float YRotation = InputController.OrientedRotation().y;
-        YRotation = YRotation * turnSpeed * VRTools.GetDeltaTime();
-        characterController.transform.Rotate(Vector3.up * YRotation, Space.Self);
+        characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed) * VRTools.GetDeltaTime(), Space.Self);
+        characterController.Move(characterController.transform.TransformDirection(Translation) * airVelocity * VRTools.GetDeltaTime());
     }
 
     private void DoInput()
