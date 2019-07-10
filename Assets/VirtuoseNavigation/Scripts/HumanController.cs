@@ -52,11 +52,16 @@ public class HumanController : MonoBehaviour
     {
         if (InputController.vm.IsButtonPressed())
         {
+            //FindObjectOfType<AudioManager>().Play("Wind1");
+            AudioManager.instance.Play("Wind1");
+
             FallingControle();
             state = State.Flying;
         }
         else
         {
+            AudioManager.instance.Stop("Wind1");
+
             state = State.Walking;
             ResetCharacterRotation();
             DoInput();
