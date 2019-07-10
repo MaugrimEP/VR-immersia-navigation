@@ -9,28 +9,31 @@ public class AnimationController : MonoBehaviour
     public HumanController humanController;
     public float SpeedMultiplier;
 
-    private vrCommand VRSetAnimationSpeed;
+    private vrCommand VRSetAnimationParams;
     private static int id;
 
     private void Start()
     {
         id++;
-        VRSetAnimationSpeed = new vrCommand($"AnimationController_{name}_{id}", SetAnimatorSpeed);
+        VRSetAnimationParams = new vrCommand($"AnimationController_{name}_{id}", SetAnimatorParams);
     }
 
     private void Update()
     {
-        VRSetAnimationSpeed.Do(humanController.GetSpeed());
+        VRSetAnimationParams.Do();
     }
 
     [VRCommand]
-    private vrValue SetAnimatorSpeed(vrValue VRspeed)
+    private vrValue SetAnimatorParams(vrValue _)
     {
-        float realSpeed = VRspeed.GetFloat();
+        float realSpeed = humanController.GetSpeed();
         float speed = Mathf.Abs(realSpeed);
-
         animator.SetFloat("Speed", speed * SpeedMultiplier);
         animator.SetFloat("RealSpeed", realSpeed * SpeedMultiplier);
+
+        animator.SetBool("Flying", humanController.state==HumanController.State.Flying);
+        animator.SetBool("Walking", humanController.state==HumanController.State.Walking);
+
         return null;
     }
 }

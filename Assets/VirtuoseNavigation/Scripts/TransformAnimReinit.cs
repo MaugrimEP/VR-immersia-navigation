@@ -5,7 +5,7 @@ using UnityEngine;
 public class TransformAnimReinit : MonoBehaviour
 {
 
-    public enum AnimationState { Idle, Walk, Run };
+    public enum AnimationState { Idle, Walk, Run , Fly};
     public AnimationState currentState;
     public float WalkRunTreshold;
     public HumanController humanController;
@@ -13,6 +13,7 @@ public class TransformAnimReinit : MonoBehaviour
     public float idleRotation;
     public float walkRotation;
     public float runRotation;
+    public float flyRotation;
 
     void Update()
     {
@@ -31,6 +32,8 @@ public class TransformAnimReinit : MonoBehaviour
                 return walkRotation;
             case AnimationState.Run:
                 return runRotation;
+            case AnimationState.Fly:
+                return flyRotation;
             default:
                 return 0f;
         }
@@ -41,5 +44,6 @@ public class TransformAnimReinit : MonoBehaviour
         if (speed == 0) currentState = AnimationState.Idle;
         if (0 < speed && speed < WalkRunTreshold) currentState = AnimationState.Walk;
         if (WalkRunTreshold <= speed) currentState = AnimationState.Run;
+        if (humanController.state == HumanController.State.Flying) currentState = AnimationState.Fly;
     }
 }

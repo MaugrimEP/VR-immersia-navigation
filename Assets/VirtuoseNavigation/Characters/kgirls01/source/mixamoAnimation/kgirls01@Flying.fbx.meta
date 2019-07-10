@@ -1,0 +1,212 @@
+fileFormatVersion: 2
+guid: 2817a66eca2ce3d4bad8f205770dd7fa
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: CATRigchest
+    100002: CATRigLArm1
+    100004: CATRigLArm2
+    100006: CATRigLArm3
+    100008: CATRigLArmCollarbone
+    100010: CATRigLLeg1
+    100012: CATRigLLeg2
+    100014: CATRigLLegAnkle
+    100016: CATRigPelvis002
+    100018: CATRigRArm1
+    100020: CATRigRArm2
+    100022: CATRigRArm3
+    100024: CATRigRArmCollarbone
+    100026: CATRigRLeg1
+    100028: CATRigRLeg2
+    100030: CATRigRLegAnkle
+    100032: CATRigSpine1
+    100034: CATRigSpine2
+    100036: //RootNode
+    100038: mixamo:CATRigbone_pupilL
+    100040: mixamo:CATRigbone_pupilR
+    100042: mixamo:CATRigHeadbone
+    100044: mixamo:CATRigLfingers1
+    100046: mixamo:CATRigLfingers2
+    100048: mixamo:CATRigLindex1
+    100050: mixamo:CATRigLindex2
+    100052: mixamo:CATRigLthumb1
+    100054: mixamo:CATRigLthumb2
+    100056: mixamo:CATRigNeck
+    100058: mixamo:CATRigRfingers1
+    100060: mixamo:CATRigRfingers2
+    100062: mixamo:CATRigRindex1
+    100064: mixamo:CATRigRindex2
+    100066: mixamo:CATRigRthumb1
+    100068: mixamo:CATRigRthumb2
+    400000: CATRigchest
+    400002: CATRigLArm1
+    400004: CATRigLArm2
+    400006: CATRigLArm3
+    400008: CATRigLArmCollarbone
+    400010: CATRigLLeg1
+    400012: CATRigLLeg2
+    400014: CATRigLLegAnkle
+    400016: CATRigPelvis002
+    400018: CATRigRArm1
+    400020: CATRigRArm2
+    400022: CATRigRArm3
+    400024: CATRigRArmCollarbone
+    400026: CATRigRLeg1
+    400028: CATRigRLeg2
+    400030: CATRigRLegAnkle
+    400032: CATRigSpine1
+    400034: CATRigSpine2
+    400036: //RootNode
+    400038: mixamo:CATRigbone_pupilL
+    400040: mixamo:CATRigbone_pupilR
+    400042: mixamo:CATRigHeadbone
+    400044: mixamo:CATRigLfingers1
+    400046: mixamo:CATRigLfingers2
+    400048: mixamo:CATRigLindex1
+    400050: mixamo:CATRigLindex2
+    400052: mixamo:CATRigLthumb1
+    400054: mixamo:CATRigLthumb2
+    400056: mixamo:CATRigNeck
+    400058: mixamo:CATRigRfingers1
+    400060: mixamo:CATRigRfingers2
+    400062: mixamo:CATRigRindex1
+    400064: mixamo:CATRigRindex2
+    400066: mixamo:CATRigRthumb1
+    400068: mixamo:CATRigRthumb2
+    2300000: mixamo:CATRigbone_pupilL
+    2300002: mixamo:CATRigbone_pupilR
+    2300004: mixamo:CATRigHeadbone
+    2300006: mixamo:CATRigLfingers1
+    2300008: mixamo:CATRigLfingers2
+    2300010: mixamo:CATRigLindex1
+    2300012: mixamo:CATRigLindex2
+    2300014: mixamo:CATRigLthumb1
+    2300016: mixamo:CATRigLthumb2
+    2300018: mixamo:CATRigNeck
+    2300020: mixamo:CATRigRfingers1
+    2300022: mixamo:CATRigRfingers2
+    2300024: mixamo:CATRigRindex1
+    2300026: mixamo:CATRigRindex2
+    2300028: mixamo:CATRigRthumb1
+    2300030: mixamo:CATRigRthumb2
+    3300000: mixamo:CATRigbone_pupilL
+    3300002: mixamo:CATRigbone_pupilR
+    3300004: mixamo:CATRigHeadbone
+    3300006: mixamo:CATRigLfingers1
+    3300008: mixamo:CATRigLfingers2
+    3300010: mixamo:CATRigLindex1
+    3300012: mixamo:CATRigLindex2
+    3300014: mixamo:CATRigLthumb1
+    3300016: mixamo:CATRigLthumb2
+    3300018: mixamo:CATRigNeck
+    3300020: mixamo:CATRigRfingers1
+    3300022: mixamo:CATRigRfingers2
+    3300024: mixamo:CATRigRindex1
+    3300026: mixamo:CATRigRindex2
+    3300028: mixamo:CATRigRthumb1
+    3300030: mixamo:CATRigRthumb2
+    4300000: mixamo:CATRigNeck
+    4300002: mixamo:CATRigHeadbone
+    4300004: mixamo:CATRigbone_pupilR
+    4300006: mixamo:CATRigbone_pupilL
+    4300008: mixamo:CATRigLindex1
+    4300010: mixamo:CATRigLindex2
+    4300012: mixamo:CATRigLfingers1
+    4300014: mixamo:CATRigLfingers2
+    4300016: mixamo:CATRigLthumb1
+    4300018: mixamo:CATRigLthumb2
+    4300020: mixamo:CATRigRindex1
+    4300022: mixamo:CATRigRindex2
+    4300024: mixamo:CATRigRfingers1
+    4300026: mixamo:CATRigRfingers2
+    4300028: mixamo:CATRigRthumb1
+    4300030: mixamo:CATRigRthumb2
+    7400000: mixamo.com
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
