@@ -1,5 +1,6 @@
 ﻿using UnityEngine.Audio;
 using UnityEngine;
+using System.Collections;
 
 [System.Serializable]
 public class Sound
@@ -19,4 +20,24 @@ public class Sound
 
     [HideInInspector]
     public AudioSource source;
+
+    public void Play()
+    {
+        source.Play();
+        IsPlaying = true;
+    }
+
+    public void PlayNoReset()
+    {
+        if (IsPlaying) return;
+        source.Play();
+        IsPlaying = true;
+    }
+
+    public void Stop()
+    {
+        source.Stop();
+        IsPlaying = false;
+    }
+
 }
