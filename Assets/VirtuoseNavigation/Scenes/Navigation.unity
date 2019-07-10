@@ -537,7 +537,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 171421494}
   humanController: {fileID: 55773716}
-  SpeedMultiplier: 1
 --- !u!114 &55773719
 MonoBehaviour:
   m_ObjectHideFlags: 0

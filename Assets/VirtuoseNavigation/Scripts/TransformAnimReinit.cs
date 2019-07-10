@@ -5,7 +5,7 @@ using UnityEngine;
 public class TransformAnimReinit : MonoBehaviour
 {
 
-    public enum AnimationState { Idle, Walk, Run , Fly};
+    public enum AnimationState { Idle, Walk, Run, Fly };
     public AnimationState currentState;
     public float WalkRunTreshold;
     public HumanController humanController;

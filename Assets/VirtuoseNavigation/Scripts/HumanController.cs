@@ -42,7 +42,7 @@ public class HumanController : MonoBehaviour
     [HideInInspector]
     public State state;
 
-    private void Start()
+    private void Awake()
     {
         previousPosition = characterController.transform.position;
         state = State.Walking;
