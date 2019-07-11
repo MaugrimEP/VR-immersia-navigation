@@ -7,6 +7,8 @@ public class ParticlesController : MonoBehaviour
 {
     public ParticleSystem DustPS;
     public TornadoController tornadoController;
+    public GeneralParticleController HandLeftExplosions;
+    public GeneralParticleController HandRightExplosions;
 
     public HumanController humanController;
     public float particleTresholdSpeed = 0.2f;
@@ -39,7 +41,8 @@ public class ParticlesController : MonoBehaviour
         float speed = Mathf.Abs(realSpeed);
 
         tornadoController.StopParticles();
-
+        HandLeftExplosions.StopParticles();
+        HandRightExplosions.StopParticles();
 
         DustPS.enableEmission = particleTresholdSpeed < speed;
     }
@@ -48,6 +51,9 @@ public class ParticlesController : MonoBehaviour
     private void UpdateParticlesTornado()
     {
         tornadoController.PlayParticles();
+        HandLeftExplosions.PlayParticles();
+        HandRightExplosions.PlayParticles();
+
         DustPS.enableEmission = false;
     }
 }
