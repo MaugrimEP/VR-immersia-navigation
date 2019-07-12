@@ -29,34 +29,14 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     {
         if (!vm.Arm.IsConnected) return;
 
-        if (!attached)//|| vm.IsButtonToggled())
+        if (!attached)
         {
             (attachedPosition, attachedRotation) = vm.Virtuose.Pose;
             attached = true;
         }
 
-        Vector3 differencePos = vm.Virtuose.Pose.position - attachedPosition;
-        Vector3 forces = -differencePos * ForceFactor;
-        Vector3 torques = (OrientedRotation()/180f) * TorqueFactor;
-
-        vm.Virtuose.virtAddForce = (forces, torques);
         vm.Virtuose.SetSpeedIdentity();
-
-        if (differencePos.magnitude > SphereRadius)
-        {
-            Vector3 PositionOnSphere = differencePos.GetPointInSphere(SphereRadius);
-            vm.Virtuose.Pose = (
-                attachedPosition + new Vector3(PositionOnSphere.x, 0f, PositionOnSphere.z),
-                vm.Virtuose.Pose.rotation);
-        }
-        else
-        {
-            (Vector3 virtPos, Quaternion virtRot) = vm.Virtuose.Pose;
-            vm.Virtuose.Pose = (
-                new Vector3(virtPos.x, attachedPosition.y, virtPos.z),
-                virtRot
-                );
-        }
+        vm.Virtuose.Pose = (attachedPosition, attachedRotation);
     }
 
     /// <summary>
@@ -87,7 +67,7 @@ public class VirtuoseElasticNavigation : MonoBehaviour
 
     public bool Jump()
     {
-        return GetTranslation().y> JumpValue;
+        return GetTranslation().y > JumpValue;
     }
 
     private float ToMouseInput(float angle)

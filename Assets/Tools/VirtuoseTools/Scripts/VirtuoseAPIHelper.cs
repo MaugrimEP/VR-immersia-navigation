@@ -271,12 +271,12 @@ public class VirtuoseAPIHelper
             ExecLogOnError(
                 VirtuoseAPI.virtGetCommandType, ref commandType);
 
-            return (VirtuoseAPI.VirtCommandType) commandType;
+            return (VirtuoseAPI.VirtCommandType)commandType;
         }
         set
         {
             ExecLogOnError(
-                VirtuoseAPI.virtSetCommandType, (ushort) value);
+                VirtuoseAPI.virtSetCommandType, (ushort)value);
         }
     }
 
@@ -285,7 +285,7 @@ public class VirtuoseAPIHelper
         set
         {
             ExecLogOnError(
-                VirtuoseAPI.virtSetGripperCommandType, (ushort) value);
+                VirtuoseAPI.virtSetGripperCommandType, (ushort)value);
         }
     }
 
@@ -308,7 +308,7 @@ public class VirtuoseAPIHelper
         set
         {
             ExecLogOnError(
-                 VirtuoseAPI.virtSetIndexingMode, (ushort) value);
+                 VirtuoseAPI.virtSetIndexingMode, (ushort)value);
         }
     }
 
@@ -635,7 +635,7 @@ public class VirtuoseAPIHelper
     public bool IsAxeInBound(int index)
     {
         uint bounds = IsInBound;
-        uint axeBit = (uint) 1 << index;
+        uint axeBit = (uint)1 << index;
         uint mask = bounds & axeBit;
         return mask != 0;
     }
@@ -689,8 +689,8 @@ public class VirtuoseAPIHelper
             }
 
 
-                ExecLogOnError(
-                VirtuoseAPI.virtSetForce, value);
+            ExecLogOnError(
+            VirtuoseAPI.virtSetForce, value);
         }
     }
 
@@ -747,6 +747,7 @@ public class VirtuoseAPIHelper
         }
     }
 
+
     /// <summary>
     /// Cast a Vector3 form unity axis system, to Virtuose axis system
     /// work for Force, Torque,
@@ -756,11 +757,35 @@ public class VirtuoseAPIHelper
     /// <returns></returns>
     public Vector3 UnityToVirtuoseVector3(Vector3 value)
     {
-        float[] poseMax = new float[6] { 0, 0, 0, 0, 0, 0 };
+        float[] poseMax = new float[SafeAxeNumber];
         ExecLogOnError(VirtuoseAPI.virtGetArticularPosition, poseMax);
-        Vector3 vect = new Vector3(-value[2] * Mathf.Cos(poseMax[0]) + value[0] * Mathf.Sin(poseMax[0]), value[0] * Mathf.Cos(poseMax[0]) + value[2] * Mathf.Sin(poseMax[0]), value[1]);
+
+        int add = 0;
+
+        if (SafeAxeNumber == 10)
+        {
+            add = 4;
+        }
+
+        Vector3 vect = new Vector3(
+            -value[2] * Mathf.Cos(poseMax[0 + add]) + value[0] * Mathf.Sin(poseMax[0 + add]),
+            value[0] * Mathf.Cos(poseMax[0 + add]) + value[2] * Mathf.Sin(poseMax[0 + add]),
+            value[1]);
 
         return vect;
+    }
+
+    public Vector3 UnityToVirtuoseVector3_2(Vector3 value)
+    {
+
+        value = new Vector3(-value.z, value.x, value.y);
+        /*positions[0] = -position.z;
+        positions[1] = position.x;
+        positions[2] = position.y;*/
+        ExecLogOnError(VirtuoseAPI.virtGetPosition, pose);
+        Quaternion quat = new Quaternion(pose[3], pose[4], pose[5], pose[6]);
+        Vector3 vect = new Vector3(value.x, value.y, value.z);
+        return quat * vect;
     }
 
     /// <summary>
@@ -1003,7 +1028,7 @@ public class VirtuoseAPIHelper
         get
         {
             float[] articulars = Articulars;
-            return new Vector2(- articulars[1], articulars[0]);
+            return new Vector2(-articulars[1], articulars[0]);
         }
         set
         {
@@ -1011,7 +1036,7 @@ public class VirtuoseAPIHelper
             {
                 float[] articulars = Articulars;
                 articulars[0] = value[1];
-                articulars[1] = - value[0];
+                articulars[1] = -value[0];
                 Articulars = articulars;
             }
             else
@@ -1025,8 +1050,8 @@ public class VirtuoseAPIHelper
     public Vector3 LocalPhysicalPosition
     {
         get
-        { 
-            return PhysicalPose.position - ArticularsPosition; 
+        {
+            return PhysicalPose.position - ArticularsPosition;
         }
     }
 
@@ -1042,7 +1067,7 @@ public class VirtuoseAPIHelper
         position.x = -position.x;
         position.z = -position.z;
         position += offset;
-        Quaternion rotation = Quaternion.AngleAxis(- articulars[(int)ArticularScaleOne.Base], Vector3.up);
+        Quaternion rotation = Quaternion.AngleAxis(-articulars[(int)ArticularScaleOne.Base], Vector3.up);
         return (position, rotation);
     }
 
@@ -1140,7 +1165,7 @@ public class VirtuoseAPIHelper
         }
     }
 
-   
+
 
     /// <summary>
     /// Speed of the observation reference frame. 
@@ -1174,7 +1199,7 @@ public class VirtuoseAPIHelper
 
         inertie = Mathf.Clamp(inertie, MIN_INERTIE, MAX_INERTIE);
 
-        float[] inerties = 
+        float[] inerties =
             {
                 inertie, 0, 0,
                 0, inertie, 0,
@@ -1207,7 +1232,7 @@ public class VirtuoseAPIHelper
 
         mass = Mathf.Clamp(mass, MIN_MASS, MAX_MASS); //Use 1g as minimum, completely arbitrary.
 
-        for(int i = 0; i < inerties.Length; i++)
+        for (int i = 0; i < inerties.Length; i++)
         {
             if (inerties[i] > MAX_INERTIE)
                 VRTools.LogWarning("[Warning][VirtuoseAPIHelper] Inertie is above authorized threshold (" + inerties[i] + "(" + i + ")>" + MAX_INERTIE + ")");
@@ -1227,9 +1252,9 @@ public class VirtuoseAPIHelper
     }
 
     public void UpdateArm()
-    {       
+    {
         int buttonState = 0;
-        for(int b = 0; b < 3; b++)
+        for (int b = 0; b < 3; b++)
         {
             ExecLogOnError(
                 VirtuoseAPI.virtGetButton, b, ref buttonState);
@@ -1261,9 +1286,9 @@ public class VirtuoseAPIHelper
     {
         float[] articulars = Articulars;
         float x = (referencearticulars[(int)ArticularScaleOne.Handle_Roll] - articulars[(int)ArticularScaleOne.Handle_Roll]) / 80;
-        float y = (referencearticulars[(int)ArticularScaleOne.Handle_Pitch] - articulars[(int)ArticularScaleOne.Handle_Pitch]) / - 70;
+        float y = (referencearticulars[(int)ArticularScaleOne.Handle_Pitch] - articulars[(int)ArticularScaleOne.Handle_Pitch]) / -70;
         if (clamped)
-        { 
+        {
             x = Mathf.Clamp(x, -1, 1);
             y = Mathf.Clamp(y, -1, 1);
         }
@@ -1361,10 +1386,10 @@ public class VirtuoseAPIHelper
 
     public static Quaternion VirtuoseToUnityRotation(float[] pose)
     {
-        if(pose.Length >= POSE_COMPONENTS_NUMBER)
+        if (pose.Length >= POSE_COMPONENTS_NUMBER)
             return new Quaternion(
-               - pose[4], //x 3
-               - pose[5], //y 4
+               -pose[4], //x 3
+               -pose[5], //y 4
                 pose[3], //Z 5
                 pose[6]);
 
@@ -1374,7 +1399,7 @@ public class VirtuoseAPIHelper
 
     public static (Vector3, Quaternion) VirtuoseToUnityPose(float[] pose)
     {
-        return (VirtuoseToUnityPosition(pose),  VirtuoseToUnityRotation(pose));
+        return (VirtuoseToUnityPosition(pose), VirtuoseToUnityRotation(pose));
     }
 
     public static Vector3 VirtuosePhysicalToUnityPosition(float[] position)
@@ -1383,7 +1408,7 @@ public class VirtuoseAPIHelper
         if (position.Length >= 3)
             return new Vector3
                 (
-                  - position[1],
+                  -position[1],
                     position[2],
                     position[0]
                 );
@@ -1408,14 +1433,14 @@ public class VirtuoseAPIHelper
     /// <returns></returns>
     public static float[] ConvertUnityToVirtuose(Vector3 position, Quaternion rotation)
     {
-        float[] positions = { 0, 0, 0,  0, 0, 0, 0 };
-        positions[0] = - position.z;
+        float[] positions = { 0, 0, 0, 0, 0, 0, 0 };
+        positions[0] = -position.z;
         positions[1] = position.x;
         positions[2] = position.y;
 
         positions[3] = rotation.z;
-        positions[4] = - rotation.x;
-        positions[5] = - rotation.y;
+        positions[4] = -rotation.x;
+        positions[5] = -rotation.y;
         positions[6] = rotation.w;
 
         return positions;
