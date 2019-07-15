@@ -5,6 +5,9 @@ using UnityEngine;
 public class ResetAOEController : MonoBehaviour
 {
     public GameObject CheckPointContainer;
+
+    public event System.Action OnReset;
+
     [HideInInspector]
     public List<CollectableController> CollectableControllers;
 
@@ -17,13 +20,13 @@ public class ResetAOEController : MonoBehaviour
 
     private void OnTriggerEnter(Collider _)
     {
-        foreach (CollectableController cc in CollectableControllers)
-            cc.ResetColor();
+        Reset();
     }
 
-    private void OnTriggerStay(Collider _)
+    private void Reset()
     {
         foreach (CollectableController cc in CollectableControllers)
             cc.ResetColor();
+        OnReset();
     }
 }

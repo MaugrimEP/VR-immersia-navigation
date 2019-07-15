@@ -9,7 +9,10 @@ public class CollectableController : MonoBehaviour
 
     private List<Color> startColor;
 
-    private bool isSucced;
+    public event System.Action OnCollected;
+
+    [HideInInspector]
+    public bool isSucced;
 
     private void Start()
     {
@@ -25,6 +28,7 @@ public class CollectableController : MonoBehaviour
         {
             Succed();
             isSucced = true;
+            OnCollected();
         }
     }
 
