@@ -1008,7 +1008,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -8850,12 +8850,12 @@ ParticleSystem:
         m_RotationOrder: 4
     colorOverTrail:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 0}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -8871,8 +8871,8 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
-        atime1: 65535
+        atime0: 386
+        atime1: 62066
         atime2: 0
         atime3: 0
         atime4: 0
@@ -19184,8 +19184,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5721448, y: 0.60789233, z: 0.05}
-  m_Center: {x: -0.0067750453, y: -0.037218142, z: -0.00008358509}
+  m_Size: {x: 5.003764, y: 6.500641, z: 0.2}
+  m_Center: {x: 0.040362474, y: 3.727911, z: 3.8406234e-10}
 --- !u!1 &5105438524686346231
 GameObject:
   m_ObjectHideFlags: 0
