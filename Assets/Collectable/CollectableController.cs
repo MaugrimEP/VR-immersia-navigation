@@ -11,6 +11,8 @@ public class CollectableController : MonoBehaviour
 
     public event System.Action OnCollected;
 
+    public Transform ObjectifPosition;
+
     [HideInInspector]
     public bool isSucced;
 

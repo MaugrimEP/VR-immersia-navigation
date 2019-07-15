@@ -29,7 +29,7 @@ public class ParcourtManager : MonoBehaviour
         foreach (CollectableController cc in collectables)
         {
             if (!cc.isSucced)
-                return cc.transform;
+                return cc.ObjectifPosition;
         }
         return null;
     }
