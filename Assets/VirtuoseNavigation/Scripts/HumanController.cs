@@ -103,7 +103,14 @@ public class HumanController : MonoBehaviour
         characterController.transform.Rotate(cameraTransform.up, Rotation.y * flyingRotationSpeed.y * VRTools.GetDeltaTime(), Space.World);
         characterController.transform.Rotate(Vector3.forward, Rotation.z * flyingRotationSpeed.z * VRTools.GetDeltaTime());
 
-        //characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed) * VRTools.GetDeltaTime());
+        Vector3 rotationCharacter = characterController.transform.localRotation.eulerAngles;
+        Vector3 rotationCharacterClamped = new Vector3(
+            Mathf.Clamp(rotationCharacter.x.OrientedAngle(), -45, +45),
+            rotationCharacter.y,
+            Mathf.Clamp(rotationCharacter.z.OrientedAngle(), -50, +50)
+            );
+
+        characterController.transform.localRotation = Quaternion.Euler(rotationCharacterClamped);
     }
 
     private void DoInput()
