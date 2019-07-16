@@ -31,12 +31,11 @@ public class ObjectifController : MonoBehaviour
 
     private void Start()
     {
-
         Icone = Instantiate(IconePrefab);
         Icone.transform.parent = transform;
 
         PointToLook = GameObject.Find("RootNode").transform;
-        Distance = VectorManager.DrawTextS(Icone.transform, PointToLook, Vector3.down * 0.2f, $" Dist : {Vector3.Distance(Target.position, Player.position).ToString("0.00")}", Color.black);
+        Distance = VectorManager.DrawTextS(Icone.transform, PointToLook, Vector3.down * 0.2f, $"{Vector3.Distance(Target.position, Player.position).ToString("0.00")}", Color.black);
     }
 
     private Vector3 GetPointOnCircle()
@@ -69,6 +68,7 @@ public class ObjectifController : MonoBehaviour
     {
         float distance = Vector3.Distance(Target.position, Player.position);
         Distance.go.transform.position = Icone.transform.position;
-        Distance.tb.SetText($"Dist: {distance.ToString("0.00")}");
+        //Distance.tb.SetText($"{distance.ToString("0.00")}");
+        Distance.tb.SetText($"");//TODO a voir
     }
 }
