@@ -70,8 +70,9 @@ public class NodeHierarchyControllerTPS : MonoBehaviour
     private void BehindCam()
     {
         RootNode.transform.rotation = previousRotation;
-        RootNode.transform.rotation = CharacterTransform.rotation;
-        RootNode.transform.position = CharacterTransform.position - RootNode.transform.forward * cameraDistance + RootNode.transform.up * playerHeight;
+
+        RootNode.transform.position = CharacterTransform.position - CharacterTransform.forward * cameraDistance;
+        RootNode.transform.LookAt(CharacterTransform.position + CharacterTransform.forward * 30f) ;
 
         heading = RootNode.transform.rotation.eulerAngles.y;
         previousRotation = RootNode.transform.rotation;

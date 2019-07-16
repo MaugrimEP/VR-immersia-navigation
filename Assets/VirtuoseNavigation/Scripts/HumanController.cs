@@ -93,8 +93,10 @@ public class HumanController : MonoBehaviour
         Vector3 Translation = InputController.GetTranslation();
         Vector3 Rotation = InputController.OrientedRotation();
         input.y = Translation.z;
-        characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed) * VRTools.GetDeltaTime(), Space.Self);
+
         characterController.Move(characterController.transform.TransformDirection(Translation) * airVelocity * VRTools.GetDeltaTime());
+        characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed) * VRTools.GetDeltaTime());
+
     }
 
     private void DoInput()
