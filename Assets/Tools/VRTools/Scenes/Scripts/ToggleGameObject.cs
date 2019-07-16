@@ -8,9 +8,13 @@ public class ToggleGameObject : MonoBehaviour
 
     public VRInput input;
 
-    void Update()
+    private void Update()
     {
-        if (input.IsToggled())
-            gameObjectToToggle.SetActive(!gameObjectToToggle.activeSelf);
+        if (input.IsToggled()) Toggle();
+    }
+
+    public void Toggle()
+    {
+        gameObjectToToggle.SetActive(!gameObjectToToggle.activeSelf);
     }
 }
