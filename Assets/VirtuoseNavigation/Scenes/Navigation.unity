@@ -648,14 +648,14 @@ MonoBehaviour:
   InputController: {fileID: 1577820583}
   speed: 5
   acceleration: 11
-  turnSpeed: 5
-  turnSpeedMin: 7
-  turnSpeedMax: 20
+  turnSpeed: 2.5
+  turnSpeedMin: 1.75
+  turnSpeedMax: 3
   jumpVelocity: 10
   gravity: 10
   MovingDirection: {x: 0, y: 0, z: 0}
   airVelocity: 20
-  flyingRotationSpeed: {x: 3, y: 3, z: 3}
+  flyingRotationSpeed: {x: 3, y: 2.5, z: 2.5}
   state: 0
 --- !u!114 &55773717
 MonoBehaviour:
@@ -11054,12 +11054,12 @@ PrefabInstance:
     - target: {fileID: 8995529891731283198, guid: 825f7c991f639dc4caeedc367528ec05,
         type: 3}
       propertyPath: Arm.Ip
-      value: 131.254.154.172#6001
+      value: 131.254.154.16#5125
       objectReference: {fileID: 0}
     - target: {fileID: 8995529891731283198, guid: 825f7c991f639dc4caeedc367528ec05,
         type: 3}
       propertyPath: VirtuoseIP
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8995529891731283198, guid: 825f7c991f639dc4caeedc367528ec05,
         type: 3}

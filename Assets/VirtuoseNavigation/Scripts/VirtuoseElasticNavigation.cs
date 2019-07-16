@@ -79,7 +79,6 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     public float GetMouseX()
     {
         float rotation = GetRotation().eulerAngles.y.TresholdLower(RotationTreshold.y, 0f);
-
         return ToMouseInput(rotation);
     }
 
@@ -97,9 +96,9 @@ public class VirtuoseElasticNavigation : MonoBehaviour
     {
         Vector3 rotation = GetRotation().eulerAngles;
 
-        rotation.x = rotation.x.OrientedAngle().TresholdLower(RotationTreshold.x, 0f); ;
-        rotation.y = rotation.y.OrientedAngle().TresholdLower(RotationTreshold.y, 0f); ;
-        rotation.z = rotation.z.OrientedAngle().TresholdLower(RotationTreshold.z, 0f); ;
+        rotation.x = rotation.x.OrientedAngle().TresholdLower(RotationTreshold.x, 0f);
+        rotation.y = rotation.y.OrientedAngle().TresholdLower(RotationTreshold.y, 0f);
+        rotation.z = rotation.z.OrientedAngle().TresholdLower(RotationTreshold.z, 0f);
 
         return rotation;
     }
