@@ -10,6 +10,9 @@ using MiddleVR_Unity3D;
 
 public class HumanController : MonoBehaviour
 {
+    public Transform cameraTransform;
+
+
     [Header("OBJECTS")]
     public Transform cameraViewPoint;
     public CharacterController characterController;
@@ -52,7 +55,7 @@ public class HumanController : MonoBehaviour
     {
         if (InputController.vm.IsButtonPressed())
         {
-            AudioManager.instance.PlayFadeNoReset("Wind1",5f);
+            AudioManager.instance.PlayFadeNoReset("Wind1", 5f);
 
             FallingControle();
             state = State.Flying;
@@ -95,8 +98,12 @@ public class HumanController : MonoBehaviour
         input.y = Translation.z;
 
         characterController.Move(characterController.transform.TransformDirection(Translation) * airVelocity * VRTools.GetDeltaTime());
-        characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed) * VRTools.GetDeltaTime());
 
+        characterController.transform.Rotate(cameraTransform.right, Rotation.x * flyingRotationSpeed.x * VRTools.GetDeltaTime(), Space.World);
+        characterController.transform.Rotate(cameraTransform.up, Rotation.y * flyingRotationSpeed.y * VRTools.GetDeltaTime(), Space.World);
+        characterController.transform.Rotate(Vector3.forward, Rotation.z * flyingRotationSpeed.z * VRTools.GetDeltaTime());
+
+        //characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed) * VRTools.GetDeltaTime());
     }
 
     private void DoInput()

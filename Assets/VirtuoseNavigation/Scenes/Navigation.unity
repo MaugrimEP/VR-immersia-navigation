@@ -642,6 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27531d4fabdd8184686a98532782d1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1382197115}
   cameraViewPoint: {fileID: 1536620546}
   characterController: {fileID: 55773721}
   InputController: {fileID: 1577820583}
