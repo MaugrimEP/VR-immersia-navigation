@@ -9,6 +9,7 @@ public class NodeHierarchyControllerTPS : MonoBehaviour
 
     [Header("CAMERA PARAMETERS")]
     public float cameraDistance = 10;
+    public float cameraOffsetY = 0f;
 
     private vrCommand VRMyUpdate;
     private static int id;
@@ -35,7 +36,15 @@ public class NodeHierarchyControllerTPS : MonoBehaviour
 
     private void BehindCam()
     {
-        RootNode.transform.position = CharacterTransform.position - CharacterTransform.forward * cameraDistance;
+
+        if (InputController.vm.IsButtonPressed())
+        {
+            RootNode.transform.position = CharacterTransform.position - CharacterTransform.forward * cameraDistance + Vector3.up * cameraOffsetY;
+        }
+        else
+        {
+            RootNode.transform.position = CharacterTransform.position - CharacterTransform.forward * cameraDistance;
+        }
         RootNode.transform.LookAt(CharacterTransform.position + CharacterTransform.forward * 30f);
     }
 }

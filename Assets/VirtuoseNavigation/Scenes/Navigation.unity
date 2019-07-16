@@ -16511,6 +16511,7 @@ MonoBehaviour:
   CharacterTransform: {fileID: 55773720}
   InputController: {fileID: 1577820583}
   cameraDistance: 6
+  cameraOffsetY: -2
 --- !u!4 &408280172
 Transform:
   m_ObjectHideFlags: 0

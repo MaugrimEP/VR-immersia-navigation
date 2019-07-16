@@ -98,10 +98,10 @@ public class HumanController : MonoBehaviour
         input.y = Translation.z;
 
         characterController.Move(characterController.transform.TransformDirection(Translation) * airVelocity * VRTools.GetDeltaTime());
-
-        characterController.transform.Rotate(cameraTransform.right, Rotation.x * flyingRotationSpeed.x * VRTools.GetDeltaTime(), Space.World);
-        characterController.transform.Rotate(cameraTransform.up, Rotation.y * flyingRotationSpeed.y * VRTools.GetDeltaTime(), Space.World);
-        characterController.transform.Rotate(Vector3.forward, Rotation.z * flyingRotationSpeed.z * VRTools.GetDeltaTime());
+        characterController.transform.Rotate(Rotation.MultComp(flyingRotationSpeed)* VRTools.GetDeltaTime());
+        //characterController.transform.Rotate(cameraTransform.right, Rotation.x * flyingRotationSpeed.x * VRTools.GetDeltaTime(), Space.World);
+        //characterController.transform.Rotate(cameraTransform.up, Rotation.y * flyingRotationSpeed.y * VRTools.GetDeltaTime(), Space.World);
+        //characterController.transform.Rotate(Vector3.forward, Rotation.z * flyingRotationSpeed.z * VRTools.GetDeltaTime());
 
         Vector3 rotationCharacter = characterController.transform.localRotation.eulerAngles;
         Vector3 rotationCharacterClamped = new Vector3(
