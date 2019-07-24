@@ -61,6 +61,24 @@ public class VirtuoseManager : MonoBehaviour
             StartCoroutine(Init());
     }
 
+    private void Awake(){
+        {//connect to the virtuose given in commande line arg
+            Param<string> IP_Param = new StringParam(
+                _paramName:"ARM_MODE",
+                _defaultValue:IpFromVirtuose(VirtuoseIP), //use the default IP from the virtuose set in the inspector
+                _separator:'=');
+
+            (bool paramHere, string ARM_IP) = IP_Param.fromCommandeLine();
+            VirtuoseIPHelper virtuoseToConnect = VirtuoseFromIP(ARM_IP);
+            Arm.Ip = ARM_IP;
+            VirtuoseIP = virtuoseToConnect;
+
+            VRTools.Log($"paramName : ARM_MODE, here :{paramHere}, FinalValue:{Arm.Ip}");
+        }
+    }
+
+
+
     IEnumerator Init()
     {
         //Wait one frame to avoid virtuose timeout, due to first frame lag in MiddleVR.
@@ -144,6 +162,28 @@ public class VirtuoseManager : MonoBehaviour
             case VirtuoseIPHelper.Simulator:
             default:
                 return "127.0.0.1";
+        }
+    }
+
+    VirtuoseIPHelper VirtuoseFromIP(string virtuoseIP)
+    {
+        switch(virtuoseIP)
+        {
+            case "131.254.154.172#6001":
+                return VirtuoseIPHelper.Scale1_6001; //neflier
+            case "131.254.154.172#6002":
+                return VirtuoseIPHelper.Scale1_6002;
+            case "131.254.154.172#6003":
+                return VirtuoseIPHelper.Scale1_6003;
+            case "131.254.154.172#6004":
+                return VirtuoseIPHelper.Scale1_6004;
+            case "131.254.154.16#5125":
+                return VirtuoseIPHelper.Desktop_5125; //immersion8
+            case "131.254.18.52#5126":
+                return VirtuoseIPHelper.Desktop_5126;  //immersion10
+            case "127.0.0.1":
+            default:
+                return VirtuoseIPHelper.Simulator;
         }
     }
 
